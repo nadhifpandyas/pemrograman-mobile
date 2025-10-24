@@ -86,6 +86,11 @@ class BiodataPage extends StatelessWidget {
                       Text('Pilot', style: TextStyle(fontSize: 12)),
                     ],
                   ),
+                  Column(
+                    children: [
+                      Text('Pilot', style: TextStyle(fontSize: 12)),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
