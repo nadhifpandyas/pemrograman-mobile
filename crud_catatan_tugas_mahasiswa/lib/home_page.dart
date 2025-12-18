@@ -9,7 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   final bool initialDark;
-  const HomePage({super.key, required this.initialDark});
+  final ValueChanged<bool> onThemeChanged; // callback ke MyApp
+
+  const HomePage({super.key, required this.initialDark, required this.onThemeChanged});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -75,10 +77,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Toggle dark: simpan ke prefs, update lokal, dan panggil callback ke MyApp
   Future<void> _toggleDark(bool v) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_prefDark, v);
     setState(() => _isDark = v);
+    // beri tahu MyApp supaya rebuild MaterialApp
+    widget.onThemeChanged(v);
   }
 
   @override
@@ -126,7 +131,12 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 8),
             Expanded(
               child: list.isEmpty
-                  ? Center(child: Text('Belum ada catatan untuk kategori "$_selectedFilter".', style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color)))
+                  ? Center(
+                child: Text(
+                  'Belum ada catatan untuk kategori "$_selectedFilter".',
+                  style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
+                ),
+              )
                   : ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (c, i) {

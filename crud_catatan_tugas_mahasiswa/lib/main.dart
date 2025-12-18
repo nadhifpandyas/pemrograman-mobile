@@ -1,13 +1,16 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'notes_repository.dart';
 import 'home_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Inisialisasi repository (SharedPreferences) untuk notes
   await NotesRepository.init();
 
+  // Load preferensi tema
   final prefs = await SharedPreferences.getInstance();
   final isDark = prefs.getBool('pref_dark_mode') ?? false;
 
@@ -31,8 +34,9 @@ class _MyAppState extends State<MyApp> {
     isDark = widget.initialDark;
   }
 
-  void _setDark(bool v) {
-    setState(() => isDark = v);
+  // dipanggil oleh HomePage saat toggle
+  void _setDark(bool value) {
+    setState(() => isDark = value);
   }
 
   @override
@@ -41,9 +45,18 @@ class _MyAppState extends State<MyApp> {
       title: 'CRUD Catatan Tugas',
       debugShowCheckedModeBanner: false,
       themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.indigo, brightness: Brightness.light),
-      darkTheme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.indigo, brightness: Brightness.dark),
-      home: HomePage(initialDark: isDark),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigo,
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigo,
+        brightness: Brightness.dark,
+      ),
+      // Pass callback ke HomePage supaya HomePage bisa mengubah theme global
+      home: HomePage(initialDark: isDark, onThemeChanged: _setDark),
     );
   }
 }

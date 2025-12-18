@@ -1,0 +1,64 @@
+# analysis_options.yaml
+
+# Basic analyzer configuration
+analyzer:
+  exclude:
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
+    - '**/*.gen.dart'
+  errors:
+    # Treat missing required parameters as an error
+    missing_required_param: error
+    # Treat missing returns as an error
+    missing_return: error
+    # Treat dead code as a warning
+    dead_code: warning
+    # Treat todo comments as info
+    todo: info
+
+# Linter rules for the project
+linter:
+  rules:
+    # Best Practices
+    - avoid_print
+    - avoid_empty_else
+    - avoid_returning_null
+    - avoid_unused_constructor_parameters
+    - curly_braces_in_flow_control_structures
+    - empty_catches
+    - empty_statements
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_final_fields
+    - prefer_final_locals
+    - unnecessary_const
+    - unnecessary_new
+    - unnecessary_nullable_for_final_variable_declarations
+
+    # Style
+    - camel_case_types
+    - file_names
+    - library_names
+    - library_prefixes
+    - non_constant_identifier_names
+    - constant_identifier_names
+    - prefer_single_quotes
+    - public_member_api_docs
+    - slash_for_doc_comments
+
+    # Design
+    - one_member_abstracts
+    - overridden_fields
+    - package_api_docs
+    - package_prefixed_library_names
+    - prefer_mixin
+    - sort_constructors_first
+    - sort_unnamed_constructors_first
+    - type_init_formals
+
+# Additional rules for Flutter
+flutter:
+  suppress:
+    - avoid_redundant_argument_values
+    - prefer_const_constructors_in_immutables
+    - unnecessary_string_interpolations
